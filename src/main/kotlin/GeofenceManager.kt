@@ -1,5 +1,6 @@
 import java.util.concurrent.locks.ReentrantLock
 
+
 /**
  * 複数のジオフェンスを管理するスレッドセーフなクラス
  */
@@ -22,7 +23,11 @@ class GeofenceManager {
      * 現在地を更新する
      * ジオフェンスイベントの有無を取得する
      */
+    @Synchronized
     fun updateLocation(presentLatitude: Double, presentLongitude: Double): List<GeofenceEvent> {
+        //TODO("WIP")
+        //アノテーションだけで良いんだっけか？
+        //threadLock.withLock
         val fromLatitude = this.presentLatitude
         val fromLongitude = this.presentLongitude
         val toLatitude = presentLatitude
@@ -33,7 +38,7 @@ class GeofenceManager {
         return geofenceList.map { it.status(fromLatitude, fromLongitude, toLatitude, toLongitude) }.toList()
     }
 
-    private val lock = ReentrantLock()
+    private val threadLock = ReentrantLock()
 
     private val geofenceList = mutableListOf<Geofence>()
 
